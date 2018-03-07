@@ -44,4 +44,56 @@ describe('contacts', function () {
       expect(contact.fieldValues).to.be.an('undefined') // this should not return in partial or minimal mode (https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCAB/index.html#CSHID=RequestDepth)
     })
   })
+
+  describe('getSegment', function () {
+    let segmentId, totalContacts
+
+    before(async () => {
+      const results = await eloqua.contacts.segments.getAll()
+      const segment = results && results.elements && results.elements[0]
+      segmentId = segment.id
+    })
+
+    before(async () => {
+      const results = await eloqua.contacts.getAll()
+      totalContacts = results && results.total
+      // console.log(totalContacts)
+    })
+
+    it('should get contacts from a segment', async () => {
+      const results = await eloqua.contacts.getSegment(segmentId)
+      // console.log(results)
+      expect(results.total < totalContacts).to.equal(true) // there should be less contact in a segment than in total
+      expect(results.elements).to.be.an('array')
+      expect(results.page).to.be.a('number')
+      expect(results.pageSize).to.be.a('number')
+      expect(results.total).to.be.a('number')
+    })
+  })
+
+  describe('getList', function () {
+    let listId, totalContacts
+
+    before(async () => {
+      const results = await eloqua.contacts.segments.getAll()
+      const segment = results && results.elements && results.elements[0]
+      listId = segment.id
+    })
+
+    before(async () => {
+      const results = await eloqua.contacts.getAll()
+      totalContacts = results && results.total
+      // console.log(totalContacts)
+    })
+
+    it('should get contacts from a segment', async () => {
+      const results = await eloqua.contacts.getList(listId)
+      // console.log(results)
+      expect(results.total < totalContacts).to.equal(true) // there should be less contact in a segment than in total
+      expect(results.elements).to.be.an('array')
+      expect(results.page).to.be.a('number')
+      expect(results.pageSize).to.be.a('number')
+      expect(results.total).to.be.a('number')
+    })
+  })
 })
