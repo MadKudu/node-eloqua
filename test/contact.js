@@ -7,7 +7,7 @@ describe('contacts', function () {
   let eloqua = new Eloqua({ siteName: process.env.siteName, username: process.env.username, password: process.env.password })
 
   describe('getAll', function () {
-    it('should return last 100 updated contacts', async () => {
+    it('should return a list of contacts', async () => {
       const results = await eloqua.contacts.getAll()
       // console.log(results)
       expect(results.elements).to.be.an('array')
@@ -26,7 +26,7 @@ describe('contacts', function () {
       contactId = contact.id
     })
 
-    it('should return a batch of contacts', async () => {
+    it('should return a single contact', async () => {
       const contact = await eloqua.contacts.get(contactId)
       // console.log(contact)
       expect(contact.id).to.equal(contactId)

@@ -2,12 +2,12 @@ const chai = require('chai')
 const expect = chai.expect
 const Eloqua = require('..')
 
-describe('contacts', function () {
+describe('contact_field', function () {
   this.timeout(10000)
   let eloqua = new Eloqua({ siteName: process.env.siteName, username: process.env.username, password: process.env.password })
 
   describe('getAll', function () {
-    it('should return last 100 updated contacts', async () => {
+    it('should return a list of contact fields', async () => {
       const results = await eloqua.contacts.fields.getAll()
       // console.log(results)
       const { elements = {} } = results
@@ -30,7 +30,7 @@ describe('contacts', function () {
       contactFieldId = field.id
     })
 
-    it('should return a batch of contacts', async () => {
+    it('should return a contact field', async () => {
       const field = await eloqua.contacts.fields.get(contactFieldId)
       // console.log(field)
       expect(field.id).to.equal(contactFieldId)
