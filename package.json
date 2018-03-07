@@ -1,6 +1,6 @@
 {
   "name": "eloqua",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A node wrapper for the Eloqua API",
   "main": "index.js",
   "scripts": {
