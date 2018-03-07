@@ -34,5 +34,14 @@ describe('contacts', function () {
       expect(contact.fieldValues).to.be.an('array')
       expect(contact.emailAddress).to.be.a('string')
     })
+
+    it('should take into account the depth parameter', async () => {
+      const contact = await eloqua.contacts.get(contactId, { depth: 'partial' })
+      // console.log(contact)
+      expect(contact.id).to.equal(contactId)
+      expect(contact.id).to.equal(contactId)
+      expect(contact.emailAddress).to.be.a('string')
+      expect(contact.fieldValues).to.be.an('undefined') // this should not return in partial or minimal mode (https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCAB/index.html#CSHID=RequestDepth)
+    })
   })
 })
