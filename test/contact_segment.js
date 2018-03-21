@@ -1,6 +1,6 @@
 const chai = require('chai')
 const expect = chai.expect
-const Eloqua = require('..')
+const Eloqua = require('../lib')
 
 describe('contact_segment', function () {
   this.timeout(10000)
