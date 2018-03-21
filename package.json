@@ -1,9 +1,10 @@
 {
   "name": "eloqua",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A node wrapper for the Eloqua API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "prepublishOnly": "./node_modules/.bin/babel lib --out-dir dist",
     "test": "npm run lint && npm run mocha",
     "mocha": "./node_modules/mocha/bin/mocha --recursive test/ --timeout 15000",
     "lint": "./node_modules/eslint/bin/eslint.js . --fix",
@@ -27,6 +28,10 @@
     "lodash": "4.17.5"
   },
   "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
     "chai": "4.1.2",
     "eslint": "4.18.2",
     "eslint-config-standard": "11.0.0",
