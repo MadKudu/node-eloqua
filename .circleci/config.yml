@@ -7,7 +7,7 @@ references:
       - image: madkudu/node:8.11
 
   environment_base: &environment_base
-    CC_TEST_REPORTER_ID: e53835f4fdf94592a455127eb9ee32a3a0f16780033f37c55213964cd2c99ac2
+    CC_TEST_REPORTER_ID: 6537aa670b7c66f713a01db7ef5e9e03bd107b5443186c93acdaf2502c4555e0
 
   environment_dev: &environment_dev
     environment:
