@@ -71,9 +71,9 @@ jobs:
       - *step_restore_cache
       - *step_npm_install
       - *step_save_cache
-      - run:
-          name: Publish
-          command: npm publish
+      # - run:
+      #     name: Publish
+      #     command: npm publish
 
 workflows:
   version: 2
