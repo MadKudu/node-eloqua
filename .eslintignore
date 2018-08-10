@@ -1,0 +1,5 @@
+.circleci/*
+.ebextensions/*
+.elasticbeanstalk/*
+.nyc_output/*
+coverage/*

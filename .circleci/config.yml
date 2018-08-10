@@ -1,31 +1,90 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+# Images at https://circleci.com/docs/2.0/circleci-images/
+
+references:
+  defaults: &defaults
+    docker:
+      - image: madkudu/node:8.11
+
+  environment_base: &environment_base
+    CC_TEST_REPORTER_ID: e53835f4fdf94592a455127eb9ee32a3a0f16780033f37c55213964cd2c99ac2
+
+  environment_dev: &environment_dev
+    environment:
+      NODE_ENV: stage
+      <<: *environment_base
+
+  environment_prod: &environment_prod
+    environment:
+      NODE_ENV: production
+      <<: *environment_base
+
+  step_checkout: &step_checkout
+    checkout
+
+  step_restore_cache: &step_restore_cache
+    restore_cache:
+      keys:
+      - v1-dependencies-{{ checksum "package.json" }}
+      - v1-dependencies-
+
+  step_npm_install: &step_npm_install
+    run: npm install
+
+  step_save_cache: &step_save_cache
+    save_cache:
+      key: v1-dependencies-{{ checksum "package.json" }}
+      paths:
+        - ./node_modules
+
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:8.9
-
-    working_directory: ~/repo
+  build_job:
+    <<: *defaults
+    <<: *environment_dev
 
     steps:
-      - checkout
+      - *step_checkout
+      - *step_restore_cache
+      - *step_npm_install
+      - *step_save_cache
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      # This is from Code Climate (see https://docs.codeclimate.com/docs/circle-ci-test-coverage-example#section-circleci-20)
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: Run tests
+          command: |
+            ./cc-test-reporter before-build
+            npm test
+            ./cc-test-reporter after-build --coverage-input-type lcov
 
-      - run: npm install
+  deploy_job_prod:
+    <<: *defaults
+    <<: *environment_prod
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+    steps:
+      - *step_checkout
+      - *step_restore_cache
+      - *step_npm_install
+      - *step_save_cache
+      - run:
+          name: Publish
+          command: npm publish
 
-      # run tests!
-      - run: npm test
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build_job:
+          context: dev
+      - deploy_job_prod:
+          context: prod
+          requires:
+            - build_job
+          filters:
+            branches:
+              only: master

@@ -1,14 +1,29 @@
 {
   "name": "eloqua",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A node wrapper for the Eloqua API",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "./node_modules/.bin/babel lib --out-dir dist",
     "test": "npm run lint && npm run mocha",
-    "mocha": "./node_modules/mocha/bin/mocha --recursive test/ --timeout 15000",
-    "lint": "./node_modules/eslint/bin/eslint.js . --fix",
+    "mocha": "nyc mocha test/",
+    "lint": "eslint . --fix",
     "watch-test": "./node_modules/mocha/bin/mocha --recursive test/ --timeout 15000 --watch"
+  },
+  "nyc": {
+    "extension": [
+      ".js",
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "test/",
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "lcov"
+    ],
+    "all": true
   },
   "repository": {
     "type": "git",
@@ -39,6 +54,7 @@
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.6.0",
     "eslint-plugin-standard": "3.0.1",
-    "mocha": "5.1.1"
+    "mocha": "5.1.1",
+    "nyc": "12.0.2"
   }
 }
