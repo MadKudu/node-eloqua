@@ -1,15 +1,7 @@
 {
   "name": "eloqua",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "description": "A node wrapper for the Eloqua API",
-  "main": "dist/index.js",
-  "scripts": {
-    "prepublishOnly": "./node_modules/.bin/babel lib --out-dir dist",
-    "test": "npm run lint && npm run mocha",
-    "mocha": "./node_modules/mocha/bin/mocha --recursive test/ --timeout 15000",
-    "lint": "./node_modules/eslint/bin/eslint.js . --fix",
-    "watch-test": "./node_modules/mocha/bin/mocha --recursive test/ --timeout 15000 --watch"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/MadKudu/node-eloqua.git"
@@ -22,24 +14,60 @@
     "url": "https://github.com/pcothenet/"
   },
   "license": "MIT",
+  "main": "./dist/client.js",
+  "types": "./dist/client.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": "10.14.1",
+    "npm": "6.4.1"
+  },
+  "scripts": {
+    "postinstall": "",
+    "test": "npm run lint && npm run coverage:clean && npm run mocha",
+    "coverage:clean": "shx rm -rf ./.nyc_output/ ./coverage/",
+    "mocha": "nyc mocha test/*.spec.ts",
+    "lint": "tslint --project .",
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist"
+  },
+  "nyc": {
+    "extension": [
+      ".js",
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/",
+      "dist/",
+      "coverage/"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "all": true
+  },
   "dependencies": {
-    "axios": "0.18.0",
-    "babel-runtime": "6.26.0",
-    "debug": "3.1.0",
-    "lodash": "4.17.5"
+    "axios": "0.19.0",
+    "debug": "4.1.1",
+    "lodash": "4.17.15"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.0",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-env": "1.6.1",
-    "chai": "4.1.2",
-    "eslint": "4.19.1",
-    "eslint-config-standard": "11.0.0",
-    "eslint-plugin-import": "2.11.0",
-    "eslint-plugin-node": "6.0.1",
-    "eslint-plugin-promise": "3.6.0",
-    "eslint-plugin-standard": "3.0.1",
-    "mocha": "5.1.1"
+    "@types/chai": "4.2.0",
+    "@types/lodash": "4.14.137",
+    "@types/mocha": "5.2.7",
+    "@types/node": "12.7.2",
+    "@types/npm": "2.0.30",
+    "chai": "4.2.0",
+    "mocha": "6.2.0",
+    "nyc": "14.1.1",
+    "shx": "0.3.2",
+    "ts-node": "8.3.0",
+    "tslint": "5.18.0",
+    "tslint-config-airbnb": "5.11.1",
+    "typescript": "3.5.3"
   }
 }
