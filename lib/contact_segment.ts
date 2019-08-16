@@ -7,7 +7,7 @@ export default class Segment {
     this.client = client;
   }
 
-  getAll (options: any) {
+  getAll (options?: any) {
     return this.client._request({
       method: 'GET',
       url: '/api/REST/2.0/assets/contact/segments',
@@ -15,7 +15,7 @@ export default class Segment {
     });
   }
 
-  get (id: number, options: any) {
+  get (id: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/2.0/assets/contact/segment/${id}`,

@@ -16,7 +16,7 @@ export default class Contact {
     this.segments = new Segment(this.client);
   }
 
-  get (id: number, options: any) {
+  get (id: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/1.0/data/contact/${id}`,
@@ -24,7 +24,7 @@ export default class Contact {
     });
   }
 
-  getAll (options: any) {
+  getAll (options?: any) {
     return this.client._request({
       method: 'GET',
       url: '/api/REST/1.0/data/contacts',
@@ -32,7 +32,7 @@ export default class Contact {
     });
   }
 
-  getSegment (segmentId: number, options: any) {
+  getSegment (segmentId: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/2.0/data/contacts/segment/${segmentId}`,

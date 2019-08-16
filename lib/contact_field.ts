@@ -7,7 +7,7 @@ export default class Properties {
     this.client = client;
   }
 
-  getAll (options: any) {
+  getAll (options?: any) {
     return this.client._request({
       method: 'GET',
       url: '/api/REST/1.0/assets/contact/fields',
@@ -15,7 +15,7 @@ export default class Properties {
     });
   }
 
-  get (id: number, options: any) {
+  get (id: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/1.0/assets/contact/field/${id}`,
