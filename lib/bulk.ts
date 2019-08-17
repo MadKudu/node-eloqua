@@ -63,7 +63,6 @@ export default class List {
     const sync = await this.createSync(bulkExport.uri);
     const syncUri = sync.uri;
     const results = await this.pollSync(syncUri);
-    console.log(results);
     const { status } = results;
     return { syncUri, status };
   }
@@ -78,7 +77,6 @@ export default class List {
 
   async getExportStream(name: string, fields: any, filter: string) {
     const { status, syncUri } = await this.completeExport(name, fields, filter);
-    console.log(status, syncUri);
     if (status === 'success') {
       return new Stream(this.client, syncUri);
     }
