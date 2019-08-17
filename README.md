@@ -25,6 +25,8 @@ const results = await eloqua.contacts.getAll();
 
 ## Bulk export
 
+[API Documentation](https://community.oracle.com/community/topliners/code-it/blog/2016/04/29/exporting-all-activities-using-the-bulk-api)
+
 ### Get the first page of results
 
 ```javascript
