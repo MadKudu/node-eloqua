@@ -1,11 +1,12 @@
-import * as _  from 'lodash';
-import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
-// const https = require('https')
+import axios, { AxiosRequestConfig } from 'axios';
+import Debug from 'debug';
 import * as EventEmitter from 'events';
-import EloquaError from './errors';
+import * as _ from 'lodash';
+import Bulk from './bulk';
 import Contact from './contact';
+import EloquaError from './errors';
 
-const debug = require('debug')('eloqua:client');
+const debug = Debug('eloqua:client');
 
 // define how long to wait API response before throwing a timeout error
 // const API_TIMEOUT = 15000
@@ -29,6 +30,7 @@ export default class EloquaClient extends EventEmitter {
   baseUrl: string;
   apiCalls: number;
   contacts: any;
+  bulk: any;
 
   constructor (options: EloquaOptions) {
     super();
@@ -46,6 +48,7 @@ export default class EloquaClient extends EventEmitter {
     });
 
     this.contacts = new Contact(this);
+    this.bulk = new Bulk(this);
   }
 
   setAuth (options: EloquaOptions) {
