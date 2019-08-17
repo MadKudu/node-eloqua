@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Eloqua from '..';
+import Eloqua from '../lib/client';
 
 describe('contact_segment', function () {
   this.timeout(10000);
