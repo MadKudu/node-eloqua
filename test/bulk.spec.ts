@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import Eloqua from '../lib/client';
 
 const name = 'MK FormSubmit';
@@ -20,98 +21,98 @@ describe('bulk', function () {
     password: process.env.password
   });
 
-  // describe('createExport', () => {
-  //   it('should create an export', async () => {
-  //     const results = await eloqua.bulk.createExport(name, fields, filter);
-  //     const { uri, createdBy } = results;
-  //     expect(uri).to.contain('/activities/exports/');
-  //   });
-  // });
+  describe('createExport', () => {
+    it('should create an export', async () => {
+      const results = await eloqua.bulk.createExport(name, fields, filter);
+      const { uri, createdBy } = results;
+      expect(uri).to.contain('/activities/exports/');
+    });
+  });
 
-  // describe('createSync', () => {
-  //   let exportUri: string;
+  describe('createSync', () => {
+    let exportUri: string;
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createExport(name, fields, filter);
-  //     exportUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      exportUri = uri;
+    });
 
-  //   it('should start a sync', async () => {
-  //     const results = await eloqua.bulk.createSync(exportUri);
-  //     const { uri, createdBy, status } = results;
-  //     expect(uri).to.contain('/syncs/');
-  //     expect(syncedInstanceUri).to.equal(exportUri);
-  //     expect(status).to.be.a('string');
-  //   });
-  // });
+    it('should start a sync', async () => {
+      const results = await eloqua.bulk.createSync(exportUri);
+      const { uri, syncedInstanceUri, status } = results;
+      expect(uri).to.contain('/syncs/');
+      expect(syncedInstanceUri).to.equal(exportUri);
+      expect(status).to.be.a('string');
+    });
+  });
 
-  // describe('checkSync', () => {
-  //   let exportUri: string;
-  //   let syncUri: string;
+  describe('checkSync', () => {
+    let exportUri: string;
+    let syncUri: string;
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createExport(name, fields, filter);
-  //     exportUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      exportUri = uri;
+    });
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createSync(exportUri);
-  //     syncUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createSync(exportUri);
+      syncUri = uri;
+    });
 
-  //   it('should retrieve a sync status', async () => {
-  //     const results = await eloqua.bulk.checkSync(syncUri);
-  //     console.log(results);
-  //     const { uri, createdBy, status } = results;
-  //     expect(uri).to.equal(syncUri);
-  //     expect(status).to.be.a('string');
-  //   });
-  // });
+    it('should retrieve a sync status', async () => {
+      const results = await eloqua.bulk.checkSync(syncUri);
+      console.log(results);
+      const { uri, createdBy, status } = results;
+      expect(uri).to.equal(syncUri);
+      expect(status).to.be.a('string');
+    });
+  });
 
-  // describe('pollSync', function () {
-  //   this.timeout(60000);
-  //   let exportUri: string;
-  //   let syncUri: string;
+  describe('pollSync', function () {
+    this.timeout(60000);
+    let exportUri: string;
+    let syncUri: string;
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createExport(name, fields, filter);
-  //     exportUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      exportUri = uri;
+    });
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createSync(exportUri);
-  //     syncUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createSync(exportUri);
+      syncUri = uri;
+    });
 
-  //   it('should retrieve a sync status', async () => {
-  //     const results = await eloqua.bulk.pollSync(syncUri);
-  //     const { uri, createdBy, status } = results;
-  //     expect(uri).to.equal(syncUri);
-  //     expect(status).to.equal('success');
-  //   });
-  // });
+    it('should retrieve a sync status', async () => {
+      const results = await eloqua.bulk.pollSync(syncUri);
+      const { uri, createdBy, status } = results;
+      expect(uri).to.equal(syncUri);
+      expect(status).to.equal('success');
+    });
+  });
 
-  // describe('runExport', function () {
-  //   this.timeout(60000);
-  //   let exportUri: string;
-  //   let syncUri: string;
+  describe('runExport', function () {
+    this.timeout(60000);
+    let exportUri: string;
+    let syncUri: string;
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createExport(name, fields, filter);
-  //     exportUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      exportUri = uri;
+    });
 
-  //   before(async () => {
-  //     const { uri } = await eloqua.bulk.createSync(exportUri);
-  //     syncUri = uri;
-  //   });
+    before(async () => {
+      const { uri } = await eloqua.bulk.createSync(exportUri);
+      syncUri = uri;
+    });
 
-  //   it('should create an export and return the results', async () => {
-  //     const results = await eloqua.bulk.runExport(name, fields, filter);
-  //     // console.log(results);
-  //     expect(results.items).to.be.an('array');
-  //   });
-  // });
+    it('should create an export and return the results', async () => {
+      const results = await eloqua.bulk.runExport(name, fields, filter);
+      // console.log(results);
+      expect(results.items).to.be.an('array');
+    });
+  });
 
   describe('getExportStream', function () {
     this.timeout(60000);
