@@ -16,10 +16,6 @@ export default class BulkStream extends Readable {
     super({ objectMode: true });
     this.client = client;
     this.syncUri = syncUri;
-    // if the client emits an error, pass the error to the stream
-    this.client.on('error', (err: any) => {
-      this.emit('error', err);
-    });
     this.limit = 10000;
     this.offset = 0;
     this.count = 0;
