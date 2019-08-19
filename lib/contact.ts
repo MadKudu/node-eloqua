@@ -1,4 +1,4 @@
-import Field from './contact_field';
+import Field from './field';
 import List from './contact_list';
 import Segment from './contact_segment';
 import EloquaClient from './client';
@@ -11,7 +11,7 @@ export default class Contact {
 
   constructor (client: EloquaClient) {
     this.client = client;
-    this.fields = new Field(this.client);
+    this.fields = new Field(this.client, 'contact');
     this.lists = new List(this.client);
     this.segments = new Segment(this.client);
   }
