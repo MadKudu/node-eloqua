@@ -3,6 +3,7 @@ import Debug from 'debug';
 import * as EventEmitter from 'events';
 import * as _ from 'lodash';
 import Bulk from './bulk';
+import Account from './account';
 import Contact from './contact';
 import EloquaError from './errors';
 
@@ -29,6 +30,7 @@ export default class EloquaClient extends EventEmitter {
   loginUrl: string;
   baseUrl: string;
   apiCalls: number;
+  accounts: any;
   contacts: any;
   bulk: any;
 
@@ -47,6 +49,7 @@ export default class EloquaClient extends EventEmitter {
       this.apiCalls += 1;
     });
 
+    this.accounts = new Account(this);
     this.contacts = new Contact(this);
     this.bulk = new Bulk(this);
   }

@@ -1,0 +1,78 @@
+import { expect } from 'chai';
+import Eloqua from '../lib/client';
+
+describe('accounts', function () {
+  this.timeout(10000);
+  const eloqua = new Eloqua({
+    siteName: process.env.siteName,
+    userName: process.env.username,
+    password: process.env.password
+  });
+
+  describe('getAll', () => {
+    it('should return a list of accounts', async () => {
+      const results = await eloqua.accounts.getAll();
+      // console.log(results)
+      expect(results.elements).to.be.an('array');
+      expect(results.page).to.be.a('number');
+      expect(results.pageSize).to.be.a('number');
+      expect(results.total).to.be.a('number');
+    });
+  });
+
+  describe('get', () => {
+    let accountId: number;
+
+    before(async () => {
+      const results = await eloqua.accounts.getAll();
+      const account = results && results.elements && results.elements[0];
+      accountId = account.id;
+    });
+
+    it('should return a single account', async () => {
+      const account = await eloqua.accounts.get(accountId);
+      // console.log(account);
+      expect(account.id).to.equal(accountId);
+      expect(account.id).to.equal(accountId);
+      expect(account.fieldValues).to.be.an('array');
+      expect(account.depth).to.equal('complete');
+    });
+
+    it('should take into account the depth parameter', async () => {
+      const account = await eloqua.accounts.get(accountId, { depth: 'partial' });
+      // console.log(account);
+      expect(account.id).to.equal(accountId);
+      expect(account.id).to.equal(accountId);
+      expect(account.depth).to.equal('partial');
+      // this should not return in partial or minimal mode
+      // (https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCAB/index.html#CSHID=RequestDepth)
+    });
+  });
+
+  // describe('getSegment', () => {
+  //   let segmentId: number;
+  //   let totalContacts: number;
+
+  //   before(async () => {
+  //     const results = await eloqua.accounts.segments.getAll();
+  //     const segment = results && results.elements && results.elements[results.elements.length - 1];
+  //     segmentId = segment.id;
+  //   });
+
+  //   before(async () => {
+  //     const results = await eloqua.accounts.getAll();
+  //     totalContacts = results && results.total;
+  //     // console.log(totalContacts)
+  //   });
+
+  //   it('should get accounts from a segment', async () => {
+  //     const results = await eloqua.accounts.getSegment(segmentId);
+  //     expect(results.total < totalContacts).to.equal(true);
+  //     // there should be less account in a segment than in total
+  //     expect(results.elements).to.be.an('array');
+  //     expect(results.page).to.be.a('number');
+  //     expect(results.pageSize).to.be.a('number');
+  //     expect(results.total).to.be.a('number');
+  //   });
+  // });
+});
