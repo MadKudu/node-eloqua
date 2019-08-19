@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import Eloqua from '../lib/client';
 
-const name = 'MK FormSubmit';
+const exportName = 'MK FormSubmit';
 const fields =  {
   ActivityId: '{{Activity.Id}}',
   ActivityType: '{{Activity.Type}}',
@@ -23,7 +23,7 @@ describe('bulk', function () {
 
   describe('createExport', () => {
     it('should create an export', async () => {
-      const results = await eloqua.bulk.createExport(name, fields, filter);
+      const results = await eloqua.bulk.createExport('activities', exportName, fields, filter);
       const { uri, createdBy } = results;
       expect(uri).to.contain('/activities/exports/');
     });
@@ -33,7 +33,7 @@ describe('bulk', function () {
     let exportUri: string;
 
     before(async () => {
-      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      const { uri } = await eloqua.bulk.createExport('activities', exportName, fields, filter);
       exportUri = uri;
     });
 
@@ -51,7 +51,7 @@ describe('bulk', function () {
     let syncUri: string;
 
     before(async () => {
-      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      const { uri } = await eloqua.bulk.createExport('activities', exportName, fields, filter);
       exportUri = uri;
     });
 
@@ -75,7 +75,7 @@ describe('bulk', function () {
     let syncUri: string;
 
     before(async () => {
-      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      const { uri } = await eloqua.bulk.createExport('activities', exportName, fields, filter);
       exportUri = uri;
     });
 
@@ -98,7 +98,7 @@ describe('bulk', function () {
     let syncUri: string;
 
     before(async () => {
-      const { uri } = await eloqua.bulk.createExport(name, fields, filter);
+      const { uri } = await eloqua.bulk.createExport('activities', exportName, fields, filter);
       exportUri = uri;
     });
 
@@ -108,7 +108,7 @@ describe('bulk', function () {
     });
 
     it('should create an export and return the results', async () => {
-      const results = await eloqua.bulk.runExport(name, fields, filter);
+      const results = await eloqua.bulk.runExport('activities', exportName, fields, filter);
       // console.log(results);
       expect(results.items).to.be.an('array');
     });
@@ -118,7 +118,7 @@ describe('bulk', function () {
     this.timeout(60000);
 
     it('should create a stream with the results', async () => {
-      const stream = await eloqua.bulk.getExportStream(name, fields, filter);
+      const stream = await eloqua.bulk.getExportStream('activities', exportName, fields, filter);
       // console.log(results);
       // let count = 0;
       return new Promise((resolve, reject) => {
@@ -132,7 +132,7 @@ describe('bulk', function () {
     it('should work if the export returns no data', async () => {
       // tslint:disable-next-line:max-line-length
       const emptyFilter = "'{{Activity.Type}}'='FormSubmit' AND '{{Activity.CreatedAt}}' > '2019-02-10 13:00:00.000' AND '{{Activity.CreatedAt}}' < '2019-02-10 13:00:00.000'";
-      const stream = await eloqua.bulk.getExportStream(name, fields, filter);
+      const stream = await eloqua.bulk.getExportStream('activities', exportName, fields, filter);
       return new Promise((resolve, reject) => {
         stream
           .on('data', () => { })
