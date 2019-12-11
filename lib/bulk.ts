@@ -11,14 +11,14 @@ export default class List {
     this.client = client;
   }
 
-  createExport(name: string, fields: any, filter: string) {
+  createExport(objectName: string, exportName: string, fields: any, filter: string) {
     return this.client._request({
       method: 'POST',
-      url: '/api/bulk/2.0/activities/exports',
+      url: `/api/bulk/2.0/${objectName}/exports`,
       data: {
-        name,
         fields,
         filter,
+        name: exportName,
         areSystemTimestampsInUTC: true
       }
     });
@@ -58,8 +58,8 @@ export default class List {
     });
   }
 
-  async completeExport(name: string, fields: any, filter: string) {
-    const bulkExport = await this.createExport(name, fields, filter);
+  async completeExport(objectName: string, exportName: string, fields: any, filter: string) {
+    const bulkExport = await this.createExport(objectName, exportName, fields, filter);
     const sync = await this.createSync(bulkExport.uri);
     const syncUri = sync.uri;
     const results = await this.pollSync(syncUri);
@@ -67,16 +67,16 @@ export default class List {
     return { syncUri, status };
   }
 
-  async runExport(name: string, fields: any, filter: string) {
-    const { status, syncUri } = await this.completeExport(name, fields, filter);
+  async runExport(objectName: string, exportName: string, fields: any, filter: string) {
+    const { status, syncUri } = await this.completeExport(objectName, exportName, fields, filter);
     if (status === 'success') {
       return this.getSyncData(syncUri);
     }
     return;
   }
 
-  async getExportStream(name: string, fields: any, filter: string) {
-    const { status, syncUri } = await this.completeExport(name, fields, filter);
+  async getExportStream(objectName: string, exportName: string, fields: any, filter: string) {
+    const { status, syncUri } = await this.completeExport(objectName, exportName, fields, filter);
     if (status === 'success') {
       return new Stream(this.client, syncUri);
     }
