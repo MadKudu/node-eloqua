@@ -6,7 +6,7 @@ export default class EloquaError extends Error {
 
   constructor (err: AxiosError) {
     const { response } : { response?: AxiosResponse } = err;
-    const { status, statusText, data } = response;
+    const { status, statusText, data } = response || {};
     const message = statusText || err.message;
     super(message);
     this.status = status;
