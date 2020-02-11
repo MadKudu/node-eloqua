@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Debug from 'debug';
-import * as EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import * as _ from 'lodash';
-import Bulk from './bulk';
 import Account from './account';
+import Bulk from './bulk';
 import Contact from './contact';
 import EloquaError from './errors';
 
