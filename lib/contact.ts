@@ -48,4 +48,11 @@ export default class Contact {
       url: `/api/REST/1.0/data/contact/${id}`
     });
   }
+
+  delete (id: number) {
+    return this.client._request({
+      method: 'DELETE',
+      url: `/api/REST/1.0/data/contact/${id}`
+    });
+  }
 }
