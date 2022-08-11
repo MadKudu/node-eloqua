@@ -109,8 +109,7 @@ describe('bulk', function () {
 
     it('should create an export and return the results', async () => {
       const results = await eloqua.bulk.runExport('activities', exportName, fields, filter);
-      // console.log(results);
-      expect(results.items).to.be.an('array');
+      expect(results.count).to.be.a('number');
     });
   });
 
