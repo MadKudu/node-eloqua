@@ -6,9 +6,9 @@ describe('client', () => {
 
   before(() => {
     eloqua = new Eloqua({
-      siteName: process.env.siteName,
-      userName: process.env.username,
-      password: process.env.password
+      siteName: process.env.siteName!,
+      userName: process.env.username!,
+      password: process.env.password!,
     });
   });
 

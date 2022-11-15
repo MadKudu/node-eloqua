@@ -1,0 +1,6 @@
+{
+  "all": true,
+  "extension": ".ts",
+  "include": "lib/",
+  "reporter": ["text", "lcov"]
+}

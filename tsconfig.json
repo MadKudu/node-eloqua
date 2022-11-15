@@ -1,21 +1,13 @@
 {
-    "compilerOptions": {
-      "declaration": true,
-      "outDir": "./dist/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "lib": [
-        "es6"
-      ],
-      "target": "es6"
-    },
-    "include": [
-      "./lib/",
-    ],
-    "exclude": [
-      "node_modules",
-      "dist"
-    ]
-  }
-  
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "lib": ["es2021"],
+    "target": "es2021"
+  },
+  "include": ["./lib/"],
+  "exclude": ["node_modules", "dist"]
+}

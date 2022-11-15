@@ -9,50 +9,50 @@ export default class Contact {
   lists: any;
   segments: any;
 
-  constructor (client: EloquaClient) {
+  constructor(client: EloquaClient) {
     this.client = client;
     this.fields = new Field(this.client, 'contact');
     this.lists = new List(this.client);
     this.segments = new Segment(this.client);
   }
 
-  get (id: number, options?: any) {
+  get(id: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/1.0/data/contact/${id}`,
-      params: options
+      params: options,
     });
   }
 
-  getAll (options?: any) {
+  getAll(options?: any) {
     return this.client._request({
       method: 'GET',
       url: '/api/REST/1.0/data/contacts',
-      params: options
+      params: options,
     });
   }
 
-  getSegment (segmentId: number, options?: any) {
+  getSegment(segmentId: number, options?: any) {
     return this.client._request({
       method: 'GET',
       url: `/api/REST/2.0/data/contacts/segment/${segmentId}`,
       // somehow, this call seems to be undocumented (https://community.oracle.com/thread/3900099)
-      params: options
+      params: options,
     });
   }
 
-  update (id: number, data: any) {
+  update(id: number, data: any) {
     return this.client._request({
       data,
       method: 'PUT',
-      url: `/api/REST/1.0/data/contact/${id}`
+      url: `/api/REST/1.0/data/contact/${id}`,
     });
   }
 
-  delete (id: number) {
+  delete(id: number) {
     return this.client._request({
       method: 'DELETE',
-      url: `/api/REST/1.0/data/contact/${id}`
+      url: `/api/REST/1.0/data/contact/${id}`,
     });
   }
 }

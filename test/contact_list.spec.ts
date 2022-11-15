@@ -2,17 +2,15 @@ import { expect } from 'chai';
 import Eloqua from '../lib/client';
 
 describe('contact_list', function () {
-  this.timeout(10000);
   const eloqua = new Eloqua({
-    siteName: process.env.siteName,
-    userName: process.env.username,
-    password: process.env.password
+    siteName: process.env.siteName!,
+    userName: process.env.username!,
+    password: process.env.password!,
   });
 
   describe('getAll', () => {
     it('should return a list of contact lists', async () => {
       const results = await eloqua.contacts.lists.getAll();
-      // console.log(results)
       const { elements = {} } = results;
       expect(elements).to.be.an('array');
       expect(results.page).to.be.a('number');
@@ -35,7 +33,6 @@ describe('contact_list', function () {
 
     it('should return a contact segment', async () => {
       const list = await eloqua.contacts.lists.get(contactSegmentId);
-      // console.log(list)
       expect(list.id).to.equal(contactSegmentId);
       expect(list.type).to.be.an('string');
       expect(list.name).to.be.a('string');
