@@ -9,7 +9,7 @@ references:
     environment:
       CC_TEST_REPORTER_ID: 6537aa670b7c66f713a01db7ef5e9e03bd107b5443186c93acdaf2502c4555e0
 
-version: 2
+version: 2.1
 jobs:
   build_job:
     <<: *defaults
@@ -18,13 +18,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: npm install
+            - v1-deps-{{ checksum "package-lock.json" }}
+            - v1-deps-
+      - run: npm ci
       - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-deps-{{ checksum "package-lock.json" }}
           paths:
-            - ./node_modules
+            - node_modules
       - run: npm run build
 
       # This is from Code Climate (see https://docs.codeclimate.com/docs/circle-ci-test-coverage-example#section-circleci-20)
