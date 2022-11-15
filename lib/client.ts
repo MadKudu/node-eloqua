@@ -34,7 +34,7 @@ export default class EloquaClient extends EventEmitter {
   contacts: any;
   bulk: any;
 
-  constructor (options: EloquaOptions) {
+  constructor(options: EloquaOptions) {
     super();
     this.qs = {};
     this.auth = { username: undefined, password: undefined };
@@ -54,7 +54,7 @@ export default class EloquaClient extends EventEmitter {
     this.bulk = new Bulk(this);
   }
 
-  setAuth (options: EloquaOptions) {
+  setAuth(options: EloquaOptions) {
     if (!options.siteName) {
       throw new Error('A siteName needs to be provided');
     } else if (!options.userName) {
@@ -64,23 +64,25 @@ export default class EloquaClient extends EventEmitter {
     }
     this.auth = {
       username: `${options.siteName}\\${options.userName}`,
-      password: `${options.password}`
+      password: `${options.password}`,
     };
   }
 
   // tslint:disable-next-line: function-name
-  async _init () {
-    if (this.baseUrl) { return this.baseUrl; }
+  async _init() {
+    if (this.baseUrl) {
+      return this.baseUrl;
+    }
     this.baseUrl = await this.getBaseUrl();
   }
 
-  async getBaseUrl () {
+  async getBaseUrl() {
     // disable certificate checks - was getting inconsistent certificate results with this call
     // const agent = new https.Agent({ rejectUnauthorized: false })
 
     const params: AxiosRequestConfig = {
       url: this.loginUrl,
-      auth: this.auth
+      auth: this.auth,
       // httpsAgent: agent,
     };
     const response = await axios(params);
@@ -94,12 +96,15 @@ export default class EloquaClient extends EventEmitter {
   }
 
   // tslint:disable-next-line: function-name
-  async _request (opts: AxiosRequestConfig) {
+  async _request(opts: AxiosRequestConfig) {
     const params = _.cloneDeep(opts);
-    if (this.auth) { params.auth = this.auth; }
+    if (this.auth) {
+      params.auth = this.auth;
+    }
     // params.json = true
 
-    if (!this.baseUrl) { // if a baseUrl is provided or we're calling the login url, skip this
+    if (!this.baseUrl) {
+      // if a baseUrl is provided or we're calling the login url, skip this
       await this._init();
     }
     params.baseURL = this.baseUrl;

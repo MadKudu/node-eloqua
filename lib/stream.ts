@@ -27,7 +27,11 @@ export default class BulkStream extends Readable {
     this.connecting = true; // set to connecting = true to prevent the stream to call _read multiple times
     debug('fetch', this.limit, this.offset);
     try {
-      const results = await this.client.bulk.getSyncData(this.syncUri, this.limit, this.offset);
+      const results = await this.client.bulk.getSyncData(
+        this.syncUri,
+        this.limit,
+        this.offset
+      );
       const { hasMore, count, totalResults } = results;
       this.count = this.count + count;
       debug('results', count, this.count, totalResults, hasMore);
@@ -37,9 +41,10 @@ export default class BulkStream extends Readable {
         this.ended = true;
       }
       this.connecting = false; // from there, we can fetch again
-      results.items && results.items.forEach((item: any) => {
-        this.push(item);
-      });
+      results.items &&
+        results.items.forEach((item: any) => {
+          this.push(item);
+        });
       if (this.ended) {
         this.push(null);
       }
@@ -50,7 +55,9 @@ export default class BulkStream extends Readable {
 
   // tslint:disable-next-line:function-name
   _read() {
-    if (this.ended || this.connecting) { return; }
+    if (this.ended || this.connecting) {
+      return;
+    }
     this.fetchPage();
   }
 }
